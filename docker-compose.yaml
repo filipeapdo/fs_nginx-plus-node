@@ -1,0 +1,50 @@
+version: '3'
+
+networks:
+  my-net:
+    driver: bridge
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    command: --innodb-use-native-aio=0
+    tty: true
+    restart: always
+    networks:
+      - my-net
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+
+  node:
+    depends_on:
+      - mysql
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    image: filipeapdo/node-challenge:latest
+    container_name: nodeserver-1
+    entrypoint: wait-for-it mysql:3306 -t 30 -- docker-entrypoint.sh
+    command: node index.js
+    tty: true
+    networks:
+      - my-net
+
+  nginx:
+    depends_on:
+      - node
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: filipeapdo/nginx-challenge:latest
+    container_name: nginx
+    entrypoint: wait-for-it nodeserver-1:3000 -t 30 -- /docker-entrypoint.sh
+    command: nginx -g "daemon off;"
+    tty: true
+    ports:
+      - 8080:80
+    networks:
+      - my-net

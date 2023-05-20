@@ -1,2 +1,3 @@
 node_modules
-mysql
+mysql_data
+wait-for-it.sh

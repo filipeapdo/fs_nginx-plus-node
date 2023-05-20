@@ -1,0 +1,1 @@
+mysql -uroot -proot nodedb < /db_script.sql

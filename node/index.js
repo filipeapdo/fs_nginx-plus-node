@@ -10,8 +10,6 @@ const conn = mysql.createConnection({
     database: 'nodedb'
 });
 
-const names = ['Blah', 'Bleh'];
-
 conn.connect(function (err) {
     if (err) throw err;
     console.log('db_mysql: connected on ...');
@@ -34,8 +32,8 @@ app.get('/', (req, res) => {
         if (err) throw err;
         console.log(result);
         res.write('<h1>Full Cycle Rocks!</h1>');
-        res.write('<p>node express route "get /", working from a docker container.</p>');
-        res.write('<p>listing all names from "People" table...</p>');
+        res.write('<p>node express route "get /", working from a docker container, behind a nginx working as a reverse proxy!</p>');
+        res.write('<p><b>listing all names from "People"\'s table</b></p>');
         result.forEach(element => {
             res.write('<p>' + element['name'] + '</p>');
         });

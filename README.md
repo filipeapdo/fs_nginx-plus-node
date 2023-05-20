@@ -5,3 +5,18 @@ Small app using Node.js, that inserts a register and lists a mysql database's ta
 to-do:
 - [x] create a db script to create and populate table
 - [ ] point the "/var/lib/mysql" to a docker volume
+
+## how to run
+
+### pre req:
+- docker
+- docker-compose
+
+### run
+inside the repo folder:
+```bash
+docker-compose -d
+```
+
+access localhost:8080, you should see:
+![image_1](./image_1.png "image_1")

@@ -35,6 +35,8 @@ services:
     tty: true
     networks:
       - my-net
+    volumes:
+      - ./node:/usr/src/app
 
   nginx:
     depends_on:

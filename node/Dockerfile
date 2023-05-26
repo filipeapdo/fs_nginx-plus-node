@@ -2,7 +2,6 @@
 
 FROM node:latest
 WORKDIR /usr/src/app
-COPY . .
 RUN yarn
 RUN apt update && \
     apt install -y wget && \

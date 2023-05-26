@@ -12,8 +12,7 @@ const conn = mysql.createConnection({
 
 conn.connect(function (err) {
     if (err) throw err;
-    console.log('db_mysql: connected on ...');
-    console.log(conn.config['database']);
+    console.log('db_mysql: connected on ... ' + conn.config['database']);
 });
 
 app.get('/', (req, res) => {

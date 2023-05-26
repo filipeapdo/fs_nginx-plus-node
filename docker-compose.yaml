@@ -31,7 +31,7 @@ services:
     image: filipeapdo/node-challenge:latest
     container_name: nodeserver-1
     entrypoint: wait-for-it mysql:3306 -t 30 -- docker-entrypoint.sh
-    command: yarn install && node index.js
+    command: node index.js
     tty: true
     networks:
       - my-net

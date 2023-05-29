@@ -1,21 +1,21 @@
 version: '3'
 
-networks:
-  my-net:
-    driver: bridge
+# networks:
+#   my-net:
+#     driver: bridge
 
 services:
   mysql:
     build:
       context: ./mysql
       dockerfile: Dockerfile
-    image: filipeapdo/mysql:latest
+    # image: filipeapdo/mysql:latest
     container_name: mysql
-    command: --innodb-use-native-aio=0
+    # command: --innodb-use-native-aio=0
     tty: true
     restart: always
-    networks:
-      - my-net
+    # networks:
+    #   - my-net
     volumes:
       - ./mysql_data:/var/lib/mysql
     environment:
@@ -28,13 +28,13 @@ services:
     build:
       context: ./node
       dockerfile: Dockerfile
-    image: filipeapdo/node-challenge:latest
+    # image: filipeapdo/node-challenge:latest
     container_name: nodeserver-1
-    entrypoint: wait-for-it mysql:3306 -t 30 -- docker-entrypoint.sh
-    command: node index.js
+    # entrypoint: wait-for-it mysql:3306 -t 30 -- docker-entrypoint.sh
+    command: sh -c "wait-for-it mysql:3306 -t 30 && yarn && node index.js"
     tty: true
-    networks:
-      - my-net
+    # networks:
+    #   - my-net
     volumes:
       - ./node:/usr/src/app
 
@@ -44,12 +44,12 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: filipeapdo/nginx-challenge:latest
+    # image: filipeapdo/nginx-challenge:latest
     container_name: nginx
-    entrypoint: wait-for-it nodeserver-1:3000 -t 30 -- /docker-entrypoint.sh
-    command: nginx -g "daemon off;"
+    # entrypoint: wait-for-it nodeserver-1:3000 -t 30 -- /docker-entrypoint.sh
+    # command: nginx -g "daemon off;"
     tty: true
     ports:
       - 8080:80
-    networks:
-      - my-net
+    # networks:
+    #   - my-net
